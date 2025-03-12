@@ -1,8 +1,17 @@
 package com.ecommerce.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "category")
 public class Category {
     @Id
@@ -10,22 +19,7 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long categoryId;
 
+    @NotBlank(message = "Cannot be Empty")
     @Column(name = "category_name", nullable = false)
     private String categoryName;
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
 }
