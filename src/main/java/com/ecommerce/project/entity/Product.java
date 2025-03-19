@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -48,9 +51,11 @@ public class Product {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name ="seller_id" )
+    @JoinColumn(name ="seller_id")
     private User user;
 
+    @OneToMany(mappedBy = "product",cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
+    private List<CartItem> products =new ArrayList<>();
 
 
 }
