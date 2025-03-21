@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,15 +34,16 @@ public class Address {
     private String state;
 
     @NotBlank
-    @Size(min = 6,message ="Pincode Must Contain 6 characters" )
+    @Size(min = 5,message ="Pincode Must Contain 6 characters" )
     private String pincode;
 
     @NotBlank
     private String country;
 
-    @ToString.Exclude
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user ;
 
 
     public Address(String street, String buildingName, String city, String state, String country, String pincode) {
