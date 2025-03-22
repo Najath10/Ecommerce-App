@@ -31,4 +31,12 @@ public class Payment {
     private String  pgName;
     private String  pgStatus;
     private String  pgResponseMessage;
+
+    public Payment(String paymentMethod, String pgPaymentId, String pgName, String pgStatus, String pgResponseMessage) {
+        this.paymentMethod = paymentMethod;
+        this.pgPaymentId = pgPaymentId;
+        this.pgName = pgName;
+        this.pgStatus = pgStatus;
+        this.pgResponseMessage = pgResponseMessage;
+    }
 }

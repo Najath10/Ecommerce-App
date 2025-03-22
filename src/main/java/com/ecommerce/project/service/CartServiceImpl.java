@@ -15,6 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -65,8 +68,12 @@ public class CartServiceImpl implements CartService {
 
         cartItemRepository.save(newCartItem);
 
-        product.setQuantity(product.getQuantity());
-        cart.setTotalPrice(cart.getTotalPrice()+ (product.getSpecialPrice()*quantity));
+        product.setQuantity(product.getQuantity()-quantity);
+        productRepository.save(product);
+
+        cart.setTotalPrice(BigDecimal.valueOf(cart.getTotalPrice() + (product.getSpecialPrice() * quantity))
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue());
         cartRepository.save(cart);
 
         CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
@@ -92,10 +99,15 @@ public class CartServiceImpl implements CartService {
 
         List<CartDTO> cartDTOS = carts.stream().map(cart -> {
             CartDTO cartDTO = modelMapper.map(cart, CartDTO.class);
-            // Correcting the mapping of ProductDTO list
+
+            // Correct mapping of ProductDTO list
             List<ProductDTO> productDTOList = cart.getCartItems()
                     .stream()
-                    .map(p -> modelMapper.map(p.getProduct(), ProductDTO.class))
+                    .map(cartItem -> {
+                        ProductDTO productDTO = modelMapper.map(cartItem.getProduct(), ProductDTO.class);
+                        productDTO.setQuantity(cartItem.getQuantity());
+                        return productDTO;
+                    })
                     .collect(Collectors.toList());
 
             cartDTO.setProducts(productDTOList);
@@ -103,6 +115,7 @@ public class CartServiceImpl implements CartService {
         }).collect(Collectors.toList());
 
         return cartDTOS;
+
     }
 
     @Override
