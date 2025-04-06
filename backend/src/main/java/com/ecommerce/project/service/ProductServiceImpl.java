@@ -41,8 +41,13 @@ public class ProductServiceImpl implements ProductService {
     private ModelMapper modelMapper;
     @Autowired
     private FileService fileService;
+
+
     @Value("${project.image}")
     private String path;
+
+    @Value("${image.base.url}")
+    private String imageBaseUrl;
 
     @Override
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
@@ -78,8 +83,13 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> pageProducts = productRepository.findAll(pageDetails);
         List<Product> products = pageProducts.getContent();
         List<ProductDTO> productDTOList = products.stream().map(
-                product -> modelMapper.map(product, ProductDTO.class)
-        ).toList();
+                product -> {
+                    ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+                    productDTO.setImage(constructImageUrl(product.getImage()));
+                    return productDTO;
+                }).toList();
+
+
         if (products.isEmpty()) {
             throw new APIException("No products found");
         }
@@ -189,6 +199,10 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.delete(product);
         return modelMapper.map(product, ProductDTO.class);
+    }
+    private  String constructImageUrl(String imageName) {
+
+        return imageBaseUrl.endsWith("/")? imageBaseUrl + imageName : imageBaseUrl + "/" + imageName;
     }
 
     @Override
