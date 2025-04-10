@@ -8,7 +8,7 @@ Java 17 | Spring Boot | Spring Security (JWT) | Spring Data JPA | MySQL
 
 Frontend:
 
-React.js | Axios | Tailwind CSS (or Bootstrap)
+React.js | Axios | Tailwind CSS | Redux
 
 🌟 Features
 User Features:
