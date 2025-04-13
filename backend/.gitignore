@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# ========================
+# Custom for your project
+# ========================
+HELP.md
+ecom-app/
+dockertest/
+docekrdemo/
+images/
