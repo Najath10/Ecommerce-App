@@ -18,4 +18,4 @@ const Loader = ({text}) => {
   )
 }
 
-export default Loader
+export default Loader;
