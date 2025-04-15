@@ -1,79 +1,80 @@
-import { Badge } from '@mui/material'
-import React, { useState } from 'react'
-import { FaShoppingCart, FaSignInAlt, FaStore } from 'react-icons/fa'
-import { Link, useLocation } from 'react-router-dom'
+import { Badge } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaShoppingCart, FaSignInAlt, FaStore } from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
 import { RxCross2 } from 'react-icons/rx';
 import { IoIosMenu } from 'react-icons/io';
 
 const Navbar = () => {
     const path = useLocation().pathname;
     const [navbarOpen, setNavbarOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    // Auto-close menu on route click (mobile)
+    const handleLinkClick = () => {
+        if (window.innerWidth < 768) {
+            setNavbarOpen(false);
+        }
+    };
+
+    // Close menu on outside click
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (navbarOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+                setNavbarOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [navbarOpen]);
 
     return (
         <div className='h-[70px] bg-custom-gradient text-white z-50 flex items-center sticky top-0'>
-            <div className='lg:px-14 sm:px-8 w-full flex justify-between px-4'>
-                <Link to='/'
-                    className='flex items-center text-2xl font-bold'>
+            <div className='md:px-14 px-4 w-full flex justify-between items-center'>
+
+                {/* Logo */}
+                <Link to='/' className='flex items-center text-2xl font-bold'>
                     <FaStore className='mr-2 text-3xl' />
                     <span className='font-[Poppins]'>E-Shop</span>
                 </Link>
 
-                {/* Navbar links */}
-                <ul className={`flex sm:gap-10 gap-4 sm:items-center text-slate-800 sm:static absolute left-0 top-[70px] sm:shadow-none shadow-md 
-                    ${navbarOpen ? "h-fit sm:pb-5 p-6" : "h-0 overflow-hidden"}
-                    transition-all duration-300 sm:h-fit sm:bg-none bg-custom-gradient text-white sm:w-fit w-full sm:flex-row flex-col px-4 sm:px-0`}>
-
-                    {/* Home */}
-                    <li className='font-[500] transition-all duration-150'>
-                        <Link
-                            to='/'
-                            className={`${
-                                path === "/" ? 'bg-white text-black font-semibold' : 'text-gray-200'
-                            } px-2 py-1 rounded-md`}>
-                            Home
-                        </Link>
-                    </li>
-
-                    {/* Products */}
-                    <li className='font-[500] transition-all duration-150'>
-                        <Link
-                            to='/products'
-                            className={`${
-                                path === "/products" ? 'bg-white text-black font-semibold' : 'text-gray-200'
-                            } px-2 py-1 rounded-md`}>
-                            Products
-                        </Link>
-                    </li>
-
-                    {/* About */}
-                    <li className='font-[500] transition-all duration-150'>
-                        <Link
-                            to='/about'
-                            className={`${
-                                path === "/about" ? 'bg-white text-black font-semibold' : 'text-gray-200'
-                            } px-2 py-1 rounded-md`}>
-                            About
-                        </Link>
-                    </li>
-
-                    {/* Contact */}
-                    <li className='font-[500] transition-all duration-150'>
-                        <Link
-                            to='/contact'
-                            className={`${
-                                path === "/contact" ? 'bg-white text-black font-semibold' : 'text-gray-200'
-                            } px-2 py-1 rounded-md`}>
-                            Contact
-                        </Link>
-                    </li>
+                {/* Nav Links */}
+                <ul
+                    ref={menuRef}
+                    className={`flex md:gap-8 gap-4 md:items-center md:static fixed top-[70px] left-0 w-full
+                        md:w-auto md:bg-transparent bg-custom-gradient z-40 text-white flex-col md:flex-row
+                        transition-all duration-300 ease-in-out md:shadow-none shadow-lg
+                        ${navbarOpen ? 'h-auto py-6 px-4' : 'h-0 overflow-hidden md:h-auto md:py-0 md:px-0'}`}>
+                    
+                    {/* Nav Items */}
+                    {[
+                        { to: '/', label: 'Home' },
+                        { to: '/products', label: 'Products' },
+                        { to: '/about', label: 'About' },
+                        { to: '/contact', label: 'Contact' }
+                    ].map((item) => (
+                        <li key={item.to} className='font-[500] transition-all duration-150'>
+                            <Link
+                                to={item.to}
+                                onClick={handleLinkClick}
+                                className={`${
+                                    path === item.to
+                                        ? 'bg-white text-black font-semibold'
+                                        : 'text-gray-200'
+                                } px-2 py-1 rounded-md block w-full`}>
+                                {item.label}
+                            </Link>
+                        </li>
+                    ))}
 
                     {/* Cart */}
                     <li className='font-[500] transition-all duration-150'>
                         <Link
                             to='/cart'
+                            onClick={handleLinkClick}
                             className={`${
                                 path === "/cart" ? 'bg-white text-black font-semibold' : 'text-gray-200'
-                            } px-2 py-1 rounded-md`}>
+                            } px-2 py-1 rounded-md block w-full`}>
                             <Badge
                                 showZero
                                 badgeContent={0}
@@ -81,38 +82,36 @@ const Navbar = () => {
                                 overlap='circular'
                                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                             >
-                                <FaShoppingCart size={25} />
+                                <FaShoppingCart size={22} />
                             </Badge>
                         </Link>
                     </li>
 
-                    {/* Login */}
-                    <li className='font-[500] transition-all duration-150'>
+                    {/* Login Button */}
+                    <li className='mt-2 md:mt-0'>
                         <Link
                             to='/login'
-                            className='flex items-center space-x-2 px-4 py-[6px]
+                            onClick={handleLinkClick}
+                            className='flex items-center justify-center space-x-2 px-4 py-[6px]
                                 bg-gradient-to-r from-purple-600 to-red-500
                                 text-white font-semibold rounded-md shadow-lg
                                 hover:from-purple-500 hover:to-red-400 transition
-                                duration-300 ease-in-out transform'>
+                                duration-300 ease-in-out transform w-full md:w-auto'>
                             <FaSignInAlt />
                             <span>Login</span>
                         </Link>
                     </li>
                 </ul>
 
-                {/* Mobile Toggle Button */}
-                <button onClick={() => setNavbarOpen(!navbarOpen)}
-                    className='sm:hidden flex items-center text-3xl'>
-                    {navbarOpen ? (
-                        <RxCross2 className='text-white' />
-                    ) : (
-                        <IoIosMenu className='text-white' />
-                    )}
+                {/* Mobile Menu Toggle */}
+                <button
+                    onClick={() => setNavbarOpen(!navbarOpen)}
+                    className='md:hidden z-50 text-3xl ml-4'>
+                    {navbarOpen ? <RxCross2 className='text-white' /> : <IoIosMenu className='text-white' />}
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Navbar;

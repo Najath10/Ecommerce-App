@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { FaShoppingCart } from 'react-icons/fa';
 import ProductViewModal from './ProductViewModal';
 import truncateText from '../../utils/truncateText';
-
+import { useDispatch } from 'react-redux';
+import {addToCart} from '../../store/actions/index.js'
+import toast from 'react-hot-toast';
 const ProductCard = ({productId,
     productName, image,
     description,quantity,
     price, discount,
-    specialPrice,}) => {
+    specialPrice,
+    about=false}) => {
 
         const [openProductViewModal,setOpenProductViewModal]= useState(false)
         const btnLoader =false;
@@ -15,9 +18,15 @@ const ProductCard = ({productId,
         const isAvailable = quantity && Number(quantity) > 0;
 
         const handleProductView =(product) =>{
+           if (!about) {
             setSelectedViewProduct(product);
             setOpenProductViewModal(true);
+           }
         }
+    const dispatch =useDispatch();
+    const addToCartHandler =(cartItems)=>{
+        dispatch(addToCart(cartItems,1,toast))
+    }
 
   return (
     <div className='border rounded-lg shadow-xl overflow-hidden transition-shadow '>
@@ -54,7 +63,7 @@ const ProductCard = ({productId,
                     <p className='text-gray-600 text-sm'>
                         {truncateText(description,80)}</p>
                 </div>
-             
+          {!about && (
              <div className='flex justify-between  items-center'>      
              {specialPrice ? (
                     <div className='flex flex-col '>
@@ -76,13 +85,18 @@ const ProductCard = ({productId,
 
                 <button 
                     disabled={!isAvailable || btnLoader }
-                    onClick={()=>{}} 
+                    onClick={()=>addToCartHandler({
+                        image,productName,description,
+                        specialPrice,price,productId,
+                        quantity
+                    })} 
                     className={`bg-blue-500 ${isAvailable ? "opacity-100 hover:bg-blue-800" : "opacity-70"} 
                     text-white py-2 px-3 rounded-lg items-center transition-colors duration-300  w-36 flex justify-center`}>
                     <FaShoppingCart className='mr-2' />
                     {isAvailable ? "Add To Cart" : "Stock Out"}
                 </button>
              </div>
+          )}       
         </div>
 
         <ProductViewModal
@@ -90,8 +104,6 @@ const ProductCard = ({productId,
         setOpen={setOpenProductViewModal}
         product={selectedViewProduct}
         isAvailable={isAvailable}
-
-
         />
     </div>
   )

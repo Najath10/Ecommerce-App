@@ -43,7 +43,7 @@ const About = () => {
                     ensuring the highest quality of our offerings </p>
             </div>
             <div className='w-full md:w-1/2 text-center md:mb-0 mb-6'>
-                <img src="https://embarkx.com/sample/placeholder.png"
+                <img src="https://images.pexels.com/photos/5632397/pexels-photo-5632397.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                  alt="" 
                  className='w-full h-auto rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105'
                  />
@@ -63,7 +63,7 @@ const About = () => {
                 description={product.description}
                 specialPrice={product.specialPrice}
                 price={product.price}
-                about={true}
+                about
                 />
             );
         })}   
