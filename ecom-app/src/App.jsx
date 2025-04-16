@@ -8,6 +8,7 @@ import Products from './components/Products/Products'
 import Navbar from './components/shared/Navbar'
 import { Toaster } from 'react-hot-toast';
 import React from 'react';
+import Cart from './components/cart/cart';
 function App() {
   
   
@@ -21,6 +22,7 @@ function App() {
       <Route path='/products' element={ <Products/>} />
       <Route path='/contact' element={ <Contact/>} />
       <Route path='/about' element={ <About/>} />
+      <Route path='/cart' element={ <Cart/>} />
     </Routes>
   </Router>
   <Toaster position='bottom-center'/>
