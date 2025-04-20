@@ -5,13 +5,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { RxCross2 } from 'react-icons/rx';
 import { IoIosMenu } from 'react-icons/io';
 import { useSelector } from 'react-redux';
+import UserMenu from '../userMenu';
 
 const Navbar = () => {
     const path = useLocation().pathname;
     const [navbarOpen, setNavbarOpen] = useState(false);
     const menuRef = useRef(null);
     const {cart} =useSelector((state)=> state.carts)
-
+    const {user} =useSelector((state)=> state.auth)
+   
     // Auto-close menu on route click (mobile)
     const handleLinkClick = () => {
         if (window.innerWidth < 768) {
@@ -90,7 +92,11 @@ const Navbar = () => {
                     </li>
 
                     {/* Login Button */}
-                    <li className='mt-2 md:mt-0'>
+                    {user && user.id ? (
+                      <UserMenu/>
+                    ) :
+                    (
+                        <li className='mt-2 md:mt-0'>
                         <Link
                             to='/login'
                             onClick={handleLinkClick}
@@ -103,6 +109,8 @@ const Navbar = () => {
                             <span>Login</span>
                         </Link>
                     </li>
+                    )}
+                   
                 </ul>
 
                 {/* Mobile Menu Toggle */}

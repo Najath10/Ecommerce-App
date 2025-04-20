@@ -38,6 +38,14 @@ export const cartReducer =(state= initialState,action) =>{
                     (item) => item.productId !== action.payload.productId
                 ),
             }
+            case 'CLEAR_CART':
+                return{
+                    ...state,
+                    cart:[],
+                    totalPrice: 0,
+                    cartId:null,
+                }
+            
    
     default:
         return state;

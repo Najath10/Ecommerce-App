@@ -113,3 +113,120 @@ export const increaseCartQuantity =
 
           }
       
+export const authenticateSignInUser 
+      = (sendData,toast,reset,navigate,setLoader) => 
+            async(dispatch) => {
+            try {
+              setLoader(true);
+              const {data} = await api.post("/auth/signin", sendData);
+              console.log("login API triggered", data);
+              dispatch({
+                type:"LOGIN_USER",
+                payload:data
+              });
+              localStorage.setItem("auth",JSON.stringify(data));
+              reset();
+              toast.success("Login Success");
+              navigate("/")
+            } catch (error) {
+              console.log(error);
+              toast.error(error?.response?.data?.message || "Internal Server Error")    
+            } finally {
+              setLoader(false)
+            }
+}
+export const registerNewUser 
+      = (sendData,toast,reset,navigate,setLoader) => 
+            async(dispatch) => {
+            try {
+              setLoader(true);
+              const {data} = await api.post("/auth/signup", sendData);
+              localStorage.setItem("auth",JSON.stringify(data));
+              reset();
+              toast.success(data?.message || "User Registered Successfully");
+              navigate("/login")
+            } catch (error) {
+              console.log(error);
+              toast.error(error?.response?.data?.message || error?.response?.data?.password ||"Internal Server Error")    
+            } finally {
+              setLoader(false)
+            }
+}
+
+export const logoutUser = (navigate) => (dispatch) => {
+      dispatch({
+        type:"LOG_OUT"
+      })
+      dispatch({ type: "CLEAR_CART" });
+      localStorage.removeItem("cartItems");
+      localStorage.removeItem("auth");
+      navigate("/login")
+}
+
+export const addUpdateUserAddress = 
+        (sendData, toast, addressId, setOpenAddressModal)  => 
+        async (dispatch,getState) => {
+              // const { user } = getState().auth;
+              // await api.post("/addresses", sendData, {
+              //   headers : {Authorization:"Bearer " + user.jwttoken},
+              // });
+          dispatch({ type:"BUTTON_LOADER" })
+          try {
+            if (!addressId) {
+              const { data } = await api.post("/addresses", sendData);
+              toast.success("Address Saved Successfully !!");
+            }else{
+              await api.put(`addresses/${addressId}`, sendData);
+              toast.success("Address Updated Successfully !!");
+            }
+            dispatch(getUserAddresses());
+            dispatch({ type:"IS_SUCCESS"});
+          } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message || "Internal Server Error")
+            dispatch({type :"IS_ERROR", payload: null})
+          }finally {
+              setOpenAddressModal(false)
+}};
+
+
+export const  getUserAddresses = () => async (dispatch,getState) => {
+      try {
+        dispatch({type:"IS_FETCHING"});
+        const { data } = await api.get(`/addresses/users`)
+        dispatch({ type: "USER_ADDRESS", payload : data });
+        dispatch({ type:"IS_SUCCESS"});
+      } catch (error) {
+        console.log(error);
+        toast.error(error?.response?.data?.message || "Failed to fetch users addresses")
+      }
+}
+
+export const  selectUserCheckoutAddress =( address) =>{
+  return {
+      type:"SELECT_CHECKOUT_ADDRESS",
+      payload:address,
+  }};
+export const clearCheckoutAddress = () => {
+  return {
+      type:"REMOVE_CHECKOUT_ADDRESS",
+  }}
+
+
+export const deleteUserAddress = 
+      (toast,addressId,setOpenDeleteModal) => 
+        async (dispatch,getState) => {
+      try {
+          dispatch({type:"BUTTON_LOADER"});
+          await api.delete(`addresses/${addressId}`);
+          dispatch(getUserAddresses());
+          dispatch(clearCheckoutAddress());
+          toast.success("Address Deleted successfully!");
+      } catch (error) {
+        dispatch({type:"IS_ERROR",
+          payload:error?.response?.data?.message || "Some error occured",
+        });
+      }finally {
+        setOpenDeleteModal(false)
+      }
+}

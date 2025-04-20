@@ -5,6 +5,7 @@ import truncateText from '../../utils/truncateText';
 import { useDispatch } from 'react-redux';
 import {addToCart} from '../../store/actions/index.js'
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 const ProductCard = ({productId,
     productName, image,
     description,quantity,
@@ -16,6 +17,7 @@ const ProductCard = ({productId,
         const btnLoader =false;
         const [selectedViewProduct,setSelectedViewProduct]=useState("");
         const isAvailable = quantity && Number(quantity) > 0;
+        const user = useSelector((state) => state.auth?.user);
 
         const handleProductView =(product) =>{
            if (!about) {
@@ -25,6 +27,10 @@ const ProductCard = ({productId,
         }
     const dispatch =useDispatch();
     const addToCartHandler =(cartItems)=>{
+        if (!user) {
+            toast.error("Please login to add items to cart.");
+            return;
+        }
         dispatch(addToCart(cartItems,1,toast))
     }
 

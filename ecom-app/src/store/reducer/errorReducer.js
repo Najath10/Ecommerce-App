@@ -3,7 +3,8 @@ const initialState ={
     isLoading:false,
     errorMessage:null,
     categoryLoader:false,
-    categoryError:null
+    categoryError:null,
+    btnLoader: false,
 };
 export const errorReducer =(state= initialState,action) => {
     switch (action.type) {
@@ -13,16 +14,28 @@ export const errorReducer =(state= initialState,action) => {
                 isLoading :true,
                 errorMessage:null
             }      
+        case "BUTTON_LOADER":
+            return {
+                ...state,
+                btnLoader: true,
+                categoryError:null,
+                errorMessage:null
+            }      
         case "IS_SUCCESS":
             return {
                 ...state,
                 isLoading :false,
-                errorMessage:null
+                errorMessage:null,
+                btnLoader:false,
+                categoryError:null,
+                categoryLoader:false,
             }
         case "IS_ERROR":
             return {
                 ...state,
                 isLoading :false,
+                btnLoader:false,
+                categoryLoader:false,
                 errorMessage:action.payload
             }
         case "CATEGORY_SUCCESS":
