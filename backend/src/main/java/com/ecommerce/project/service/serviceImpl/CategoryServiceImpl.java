@@ -1,4 +1,4 @@
-package com.ecommerce.project.service;
+package com.ecommerce.project.service.serviceImpl;
 
 import com.ecommerce.project.entity.Category;
 import com.ecommerce.project.exceptions.APIException;
@@ -6,6 +6,7 @@ import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.payload.CategoryDTO;
 import com.ecommerce.project.payload.CategoryResponse;
 import com.ecommerce.project.repository.CategoryRepository;
+import com.ecommerce.project.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,8 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import javax.swing.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,6 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category savedCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category","CategoryId",categoryId));
         savedCategory.setCategoryName(category.getCategoryName());
-        return modelMapper.map(savedCategory, CategoryDTO.class);
+        Category updatedCategory = categoryRepository.save(savedCategory);
+        return modelMapper.map(updatedCategory, CategoryDTO.class);
     }
 }

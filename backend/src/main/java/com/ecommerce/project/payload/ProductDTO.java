@@ -2,6 +2,7 @@ package com.ecommerce.project.payload;
 
 
 import com.ecommerce.project.entity.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,4 @@ public class ProductDTO {
     private Double price;
     private double discount;
     private double specialPrice;
-//    private Category category;
 }

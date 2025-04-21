@@ -36,8 +36,19 @@ build/
 # ========================
 # Custom for your project
 # ========================
-HELP.md
 ecom-app/
 dockertest/
 docekrdemo/
 images/
+
+
+# Spring Boot properties files
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+
+# Environment variables
+.env
+.env.*
+

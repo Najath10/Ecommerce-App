@@ -1,4 +1,4 @@
-package com.ecommerce.project.service;
+package com.ecommerce.project.service.serviceImpl;
 
 import com.ecommerce.project.entity.Address;
 import com.ecommerce.project.entity.User;
@@ -6,12 +6,12 @@ import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.payload.AddressDTO;
 import com.ecommerce.project.repository.AddressRepository;
 import com.ecommerce.project.repository.UserRepository;
+import com.ecommerce.project.service.AddressService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceimpl implements AddressService {

@@ -1,4 +1,4 @@
-package com.ecommerce.project.service;
+package com.ecommerce.project.service.serviceImpl;
 
 import com.ecommerce.project.entity.Cart;
 import com.ecommerce.project.entity.CartItem;
@@ -6,10 +6,12 @@ import com.ecommerce.project.entity.Product;
 import com.ecommerce.project.exceptions.APIException;
 import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.payload.CartDTO;
+import com.ecommerce.project.payload.CartItemDTO;
 import com.ecommerce.project.payload.ProductDTO;
 import com.ecommerce.project.repository.CartItemRepository;
 import com.ecommerce.project.repository.CartRepository;
 import com.ecommerce.project.repository.ProductRepository;
+import com.ecommerce.project.service.CartService;
 import com.ecommerce.project.util.AuthUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -238,6 +240,41 @@ public class CartServiceImpl implements CartService {
                 +(cartItem.getProductPrice()*cartItem.getQuantity()));
         cartItemRepository.save(cartItem);
 
+    }
+
+    @Transactional
+    @Override
+    public String createOrUpdateCartWithItems(List<CartItemDTO> cartItemDTO) {
+        String emailId = authUtil.loggedInEmail();
+        Cart existingCart = cartRepository.findCartByEmail(emailId);
+        if (existingCart == null){
+            existingCart = new Cart();
+            existingCart.setTotalPrice(0.0);
+            existingCart.setUser(authUtil.loggedInUser());
+            existingCart = cartRepository.save(existingCart);
+        }else {
+            cartItemRepository.deleteAllByCartId(existingCart.getCartId());
+        }
+        Double totalPrice = 0.00;
+        for( CartItemDTO cartItemDTOs: cartItemDTO ){
+            Long productId = cartItemDTOs.getProductId();
+            Integer quantity = cartItemDTOs.getQuantity();
+            Product product = productRepository.findById(productId).orElseThrow(
+                    ()-> new ResourceNotFoundException("product","productId",productId));
+           // product.setQuantity(product.getQuantity() - quantity);
+            totalPrice += product.getSpecialPrice() * quantity;
+
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setQuantity(quantity);
+        cartItem.setCart(existingCart);
+        cartItem.setProductPrice(product.getSpecialPrice());
+        cartItem.setDiscount(product.getDiscount());
+        cartItemRepository.save(cartItem);
+        }
+        existingCart.setTotalPrice(totalPrice);
+        cartRepository.save(existingCart);
+        return "Cart created/updated with New Items";
     }
 
     private Cart createCart() {
