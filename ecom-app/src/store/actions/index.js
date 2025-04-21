@@ -4,7 +4,7 @@ import api from "../../api/api.js";
 export const fetchProducts = (queryString) => async (dispatch) => {
   try {
     dispatch({ type: "IS_FETCHING" });
-    const { data } = await api.get(`/public/products?${queryString}`);
+    const { data } = await api.get(`/public/products?${queryString}`); 
     dispatch({
       type: "FETCH_PRODUCTS",
       payload: data.content,
@@ -93,7 +93,7 @@ export const increaseCartQuantity =
                 toast.error("Quantity Reached to Limit")
             }};
     
-       export const decreaseCartQuantity =
+export const decreaseCartQuantity =
       (data , newQuantity) => (dispatch, getState)  => {
           dispatch({
             type:"ADD_CART",
@@ -194,6 +194,7 @@ export const  getUserAddresses = () => async (dispatch,getState) => {
       try {
         dispatch({type:"IS_FETCHING"});
         const { data } = await api.get(`/addresses/users`)
+        console.log("Address API response:", data); 
         dispatch({ type: "USER_ADDRESS", payload : data });
         dispatch({ type:"IS_SUCCESS"});
       } catch (error) {
@@ -207,6 +208,7 @@ export const  selectUserCheckoutAddress =( address) =>{
       type:"SELECT_CHECKOUT_ADDRESS",
       payload:address,
   }};
+
 export const clearCheckoutAddress = () => {
   return {
       type:"REMOVE_CHECKOUT_ADDRESS",
@@ -230,3 +232,37 @@ export const deleteUserAddress =
         setOpenDeleteModal(false)
       }
 }
+export const addPaymentMethod = (method) => {
+  return {
+    type: "ADD_PAYMENT_METHOD",
+    payload: method,
+  }
+}
+export const creatUserCart = (sendCartItems) => async(dispatch,getState) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    await api.post("/cart/create", sendCartItems);
+    await dispatch(getUserCart());
+  } catch (error) {
+    dispatch({ type: "IS_ERROR",
+      payload: error?.response?.data?.message || "Failed to create cart",
+     });
+  }
+}
+export const getUserCart = () => async(dispatch,getState) => {
+  try {
+    dispatch({ type: "IS_FETCHING" });
+    const { data } = await api.get("/carts/user/cart");
+    dispatch({ type: "GET_USER_CART",
+               payload: data.products,
+               totalPrice: data.totalPrice,
+               cartId: data.cartId,});
+      localStorage.setItem("cartItems",JSON.stringify(getState().carts.cart));
+      dispatch({ type: "IS_SUCCESS" });
+  } catch (error) {
+    dispatch({ type: "IS_ERROR",
+      payload: error?.response?.data?.message || "Failed to fetch cart",
+     });
+  }
+}
+

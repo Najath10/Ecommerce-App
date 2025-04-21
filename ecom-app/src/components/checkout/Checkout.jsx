@@ -6,15 +6,25 @@ import { getUserAddresses } from '../../store/actions';
 import { toast } from 'react-hot-toast';
 import '../../App.css'
 import ErrorPage from '../shared/ErrorPage';
+import PaymentMethod from './PaymentMethod';
+import OrderSummary from './OrderSummary';
+import StripePayment from './StripePayment';
+import PaypalPayment from './PaypalPayment';
+
+
 const Checkout = () => {
     const [activeStep, setActiveStep] = useState(0);
-    const dispatch = useDispatch();
+    const { paymentMethod } = useSelector((state)=>state.payment)
     const { isLoading, errorMessage } = useSelector((state) => state.errors)
     const { address, selectedUserAddress } = useSelector((state) => state.auth)
+    const { totalPrice, cart } = useSelector((state) => state.carts)
+    
+    const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getUserAddresses());
     }, [dispatch]);
-    const paymentMethod = false;
+
     const handleNext = () => {
         if (activeStep === 0 && !selectedUserAddress) {
             toast.error("Please select checkout address before proceeding")
@@ -57,6 +67,20 @@ const Checkout = () => {
                     ) : (     
                 <div className="mt-5">
                   {activeStep === 0 && <AddressInfo address={address} />}
+                  {activeStep === 1 && <PaymentMethod  />}
+                  {activeStep === 2 && <OrderSummary 
+                                        address={selectedUserAddress}
+                                        cart={cart}
+                                        paymentMethod={paymentMethod}
+                                        totalPrice={totalPrice}  />}
+                  {activeStep === 3 && 
+                        <>
+                        {paymentMethod === "Stripe" ? (
+                            <StripePayment/>
+                        ):(
+                            <PaypalPayment/>
+                        )}
+                        </>}
                 </div>
               )}
 

@@ -11,7 +11,8 @@ export const authReducer = (state=initialState,action)=>{
             return{...state,user:action.payload}
         
         case "USER_ADDRESS":
-            return{  ...state,address:action.payload  }
+            return{  ...state
+                ,address:action.payload  }
         
         case "LOG_OUT":
             return{   
@@ -31,6 +32,4 @@ export const authReducer = (state=initialState,action)=>{
         default:
             return state;
     }
-
-    return state;   
 }

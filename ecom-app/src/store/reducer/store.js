@@ -4,6 +4,7 @@ import { ProductReducer } from './ProductReducer';
 import { errorReducer } from './errorReducer';
 import { cartReducer } from './cartReducer';
 import { authReducer } from './authReducer';
+import { paymentMethodReducer } from './paymentMethodReducer';
 
 
     const user =localStorage.getItem("auth") ? 
@@ -25,6 +26,8 @@ import { authReducer } from './authReducer';
         errors:errorReducer,
         carts:cartReducer,
         auth:authReducer,
+        payment:paymentMethodReducer,
+        
     },
     preloadedState:initialState,
 });

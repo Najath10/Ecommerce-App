@@ -7,18 +7,21 @@ import About from './components/About';     // Corrected
 import Products from './components/Products/Products'
 import Navbar from './components/shared/Navbar'
 import { Toaster } from 'react-hot-toast';
-import React  from 'react';
+import React, { useEffect }  from 'react';
 import Cart from './components/cart/cart';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Register from './components/auth/Register';
 import api from "./api/api";
 import Checkout from './components/checkout/Checkout';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserCart } from './store/actions';
 
 
 function App() {
   
- 
+  
+  
   return (
     <React.Fragment>
   <Router>
