@@ -1,31 +1,73 @@
-🛍️ E-Commerce Application
-A full-stack E-commerce platform built with Spring Boot (Backend) and React.js (Frontend). This platform allows users to browse products, manage their cart, and place orders. Admins have the ability to manage products, orders, and users.
+🛒 E-Commerce Platform
+A comprehensive full-stack E-Commerce application built with Spring Boot and React.js, powered by PostgreSQL. This platform enables users to browse products, manage their shopping carts, and place orders, while administrators can oversee products, orders, and user accounts.​
 
 🚀 Tech Stack
-Backend:
+Backend
 
-Java 17 | Spring Boot | Spring Security (JWT) | Spring Data JPA | MySQL
+Java 17
+Spring Boot
+Spring Security (JWT Authentication)
+Spring Data JPA
+PostgreSQL​
 
-Frontend:
+Frontend
 
-React.js | Axios | Tailwind CSS | Redux
+React.js
+Redux
+Axios
+Tailwind CSS​
 
 🌟 Features
-User Features:
-User Registration & Login: Secure login/signup using JWT.
+👤 User Features
+Secure Authentication: User registration and login with JWT-based authentication.
 
-Browse Products: View product listings with filters (category, price, etc.).
+Product Browsing: View product listings with filtering options by category and price.
 
-Shopping Cart: Add/remove products to/from the cart.
+Shopping Cart: Add or remove products from the cart.
 
-Place Orders: Checkout and place orders with order history tracking.
+Order Placement: Checkout process with order history tracking.
 
-Profile Management: Users can update their profile information.
+Profile Management: Update personal information.​
+Bytebase
 
-Admin Features:
+🛠️ Admin Features
 Product Management: Add, edit, and delete products.
 
-Order Management: View and manage all orders placed by users.
+Order Management: View and manage all user orders.
 
-User Management: Admin can view and manage user accounts.
+User Management: View and manage user accounts.​
+
+📦 Installation
+Prerequisites
+Node.js and npm
+Java 17
+PostgreSQL​
+
+*Backend Setup*
+Clone the repository:
+git clone https://github.com/yourusername/ecommerce-backend.git
+cd ecommerce-backend&#8203;:contentReference[oaicite:41]{index=41}
+Configure the database settings in application.properties.
+
+Run the application:
+./mvnw spring-boot:run
+
+
+*Frontend Setup*
+Navigate to the frontend directory:
+cd ecommerce-frontend
+2. Install dependencies:
+npm install
+3. Start the development server:
+npm start
+
+
+🤝 Contributing
+Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.​
+
+📄 License
+This project is licensed under the MIT License.​
+
+📬 Contact
+For any inquiries or feedback, please contact najathabdulla413@gmail.com.​
 
