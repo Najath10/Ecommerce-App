@@ -1,15 +1,39 @@
-import { Alert, AlertTitle } from '@mui/material'
-import React from 'react'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import PaymentForm from './PaymentForm'
+import { createStripePaymentSecret } from '../../store/actions'
+import SkeletonLoader from '../shared/SkeletonLoader'
 
+const stripePromise= loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const StripePayment = () => {
-  return (
-    <div className='flex justify-center items-center h-96'> 
-            <Alert severity='warning' variant='filled' style={{maxWidth:"400px"}}>
-                <AlertTitle>Stripe Method Unavailable</AlertTitle>
-                Stripe Method is Unavailable .Please use another payment method
-            </Alert>
-        </div>
-  )
-}
+  const {clientSecret} = useSelector((state) => state.auth);
+  const {totalPrice} = useSelector((state) => state.carts);
+  const {isLoading, errorMessage} = useSelector((state) => state.errors);
+
+        const dispatch = useDispatch();
+        useEffect(() => {
+          if (!clientSecret) {
+            dispatch(createStripePaymentSecret(totalPrice));
+          }},[clientSecret]);
+        
+        if (isLoading) {
+          return (
+            <div className='max-w-lg mx-auto p-4'>
+                <SkeletonLoader/>
+          
+            </div>
+          )
+        }      
+   return (
+          <>
+          {clientSecret && (
+            <Elements stripe={stripePromise} options={{ clientSecret }}>
+              <PaymentForm clientSecret={clientSecret} totalPrice={totalPrice}/>
+            </Elements>    )}
+          </>
+        )
+      }
 
 export default StripePayment

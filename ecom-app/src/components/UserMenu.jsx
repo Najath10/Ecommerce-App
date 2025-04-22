@@ -32,7 +32,7 @@ const UserMenu = () => {
   return (
     <div className='relative z-30  '>
      <div
-       className='sm:border-[1px] sm:border-slate-400 flex flex-row items-center gap-1 rounded-full cursor-pointer hover:shadow-md transition text-slate-700'
+       className='md:border-[1px] md:border-slate-400 flex flex-row items-center gap-1 rounded-full cursor-pointer hover:shadow-md transition text-slate-700'
        onClick={handleClick}
      >
        <Avatar alt='Menu'>{username.charAt(0).toUpperCase()}</Avatar>

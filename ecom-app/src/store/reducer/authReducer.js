@@ -1,7 +1,9 @@
+import { selectUserCheckoutAddress } from "../actions"
 
 const initialState ={
         user:null,
         address:[],
+        clientSecret:null,
         selectedUserAddress: null,
 }
 
@@ -28,6 +30,17 @@ export const authReducer = (state=initialState,action)=>{
             return{
                 ...state,
                 selectedUserAddress: null
+            }
+        case "CLIENT_SECRET":
+            return{
+                ...state,
+                clientSecret: action.payload
+            }
+        case "REMOVE_CLIENT_SECRET_ADDRESS":
+            return{
+                ...state,
+                clientSecret:null,
+                selectUserCheckoutAddress:null
             }    
         default:
             return state;

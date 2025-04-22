@@ -1,5 +1,7 @@
 import toast from "react-hot-toast";
 import api from "../../api/api.js";
+import { current } from "@reduxjs/toolkit";
+import { ESModulesEvaluator } from "vite/module-runner";
 
 export const fetchProducts = (queryString) => async (dispatch) => {
   try {
@@ -204,6 +206,8 @@ export const  getUserAddresses = () => async (dispatch,getState) => {
 }
 
 export const  selectUserCheckoutAddress =( address) =>{
+  localStorage.setItem("CHECKOUT_ADDRESS",JSON.stringify(address));
+  
   return {
       type:"SELECT_CHECKOUT_ADDRESS",
       payload:address,
@@ -265,4 +269,40 @@ export const getUserCart = () => async(dispatch,getState) => {
      });
   }
 }
+export const createStripePaymentSecret = 
+            (totalPrice) => async (dispatch,getState) => {
+        try {
+          dispatch({ type: "IS_FETCHING" });
+          const { data } = await api.post("/order/stripe-client-secret", {
+            "amount": Number(totalPrice) * 100,
+            "currency":"usd"
+          });
+          dispatch({type: "CLIENT_SECRET",
+            payload: data,
+          })
+          localStorage.setItem("clientSecret",JSON.stringify(data));
+          dispatch({ type: "IS_SUCCESS" });
+        } catch (error) {
+          dispatch({ type: "IS_ERROR",
+            payload: error?.response?.data?.message || "Failed to create payment secret",
+           });       
+        }}
 
+export const stripePaymentConfirmation  = (sendData,setErrorMessage ,setLoading , toast) => 
+            async(dispatch,getState) => {
+          try {
+            const  response  = await api.post("/order/users/payments/online",sendData);
+            if ( response.data){
+              localStorage.removeItem("CHECKOUT_ADDRESS")
+              localStorage.removeItem("cartItems")
+              localStorage.removeItem("clientSecret");
+              dispatch({type: "REMOVE_CLIENT_SECRET_ADDRESS", payload: data});
+              dispatch({type: "CLEAR_CART"});
+              toast.success("Order Accepted");
+            } else{
+              setErrorMessage("Payment Failed ! Please try again")
+            }
+          } catch (error) {
+            setErrorMessage("Payment Failed ! Please try again")
+          }
+      }

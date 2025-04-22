@@ -16,6 +16,7 @@ import api from "./api/api";
 import Checkout from './components/checkout/Checkout';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserCart } from './store/actions';
+import PaymentConfirmation from './components/checkout/PaymentConfirmation';
 
 
 function App() {
@@ -36,6 +37,8 @@ function App() {
 
       <Route path='/' element={ <PrivateRoute />} >
       <Route path='/checkout' element={ <Checkout/>} />
+      <Route path='/order-confirm' element={ <PaymentConfirmation/>} />
+
       </Route>
 
 
