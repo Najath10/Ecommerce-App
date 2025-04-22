@@ -45,8 +45,7 @@ PostgreSQL​
 
 *Backend Setup*
 Clone the repository:
-git clone https://github.com/yourusername/ecommerce-backend.git
-cd ecommerce-backend&#8203;:contentReference[oaicite:41]{index=41}
+git clone https://github.com/Najath10/ecommerce-backend.git
 Configure the database settings in application.properties.
 
 Run the application:
