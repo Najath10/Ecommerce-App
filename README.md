@@ -2,6 +2,7 @@
 A comprehensive full-stack E-Commerce application built with Spring Boot and React.js, powered by PostgreSQL. This platform enables users to browse products, manage their shopping carts, and place orders, while administrators can oversee products, orders, and user accounts.​
 
 🚀 Tech Stack
+
 Backend
 
 Java 17
