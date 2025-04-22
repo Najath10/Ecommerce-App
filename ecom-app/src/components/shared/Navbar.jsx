@@ -1,11 +1,11 @@
-import { Badge } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { FaShoppingCart, FaSignInAlt, FaStore } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
-import { RxCross2 } from 'react-icons/rx';
-import { IoIosMenu } from 'react-icons/io';
-import { useSelector } from 'react-redux';
-import UserMenu from '../userMenu';
+import { Badge } from "@mui/material";
+import { useState , useEffect, useRef} from "react";
+import { FaShoppingCart, FaSignInAlt, FaStore } from "react-icons/fa";
+import { IoIosMenu } from "react-icons/io";
+import { RxCross2 } from "react-icons/rx";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import UserMenu from "../UserMenu";
 
 const Navbar = () => {
     const path = useLocation().pathname;
@@ -123,5 +123,6 @@ const Navbar = () => {
         </div>
     );
 };
+
 
 export default Navbar;

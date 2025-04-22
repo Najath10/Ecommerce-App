@@ -3,10 +3,10 @@ import React from 'react'
 
 const PaypalPayment = () => {
   return (
-    <div className='flex justify-center items-center h-96'> 
-        <Alert severity='warning' variant='filled' style={{maxWidth:"400px"}}>
-            <AlertTitle>Paypal Method Unavailable</AlertTitle>
-            Paypal Method is Unavailable .Please use another payment method
+    <div className='h-96 flex justify-center items-center'>
+        <Alert severity="warning" variant='filled' style={{ maxWidth: "400px" }}>
+            <AlertTitle>Paypal Unavailable</AlertTitle>
+            Paypal payment is unavailable. Please use another payment method.
         </Alert>
     </div>
   )

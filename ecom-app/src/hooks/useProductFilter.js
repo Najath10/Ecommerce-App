@@ -1,40 +1,40 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
-import { useSearchParams } from 'react-router-dom'
-import { fetchProducts } from '../store/actions';
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { fetchProducts } from "../store/actions";
 
 const useProductFilter = () => {
-
     const [searchParams] = useSearchParams();
     const dispatch = useDispatch();
 
-    useEffect(()=>{
+    useEffect(() => {
         const params = new URLSearchParams();
-        const currentPage = searchParams.get("page")? Number(searchParams.get("page")):1;
-        params.set("pageNumber",currentPage -1);
+
+        const currentPage = searchParams.get("page")
+            ? Number(searchParams.get("page"))
+            : 1;
+        params.set("pageNumber", currentPage - 1);
 
         const sortOrder = searchParams.get("sortby") || "asc";
+        const categoryParams = searchParams.get("category") || null;
+        const keyword = searchParams.get("keyword") || null;
         params.set("sortBy","price");
-        params.set("sortDir",sortOrder);
+        params.set("sortDir", sortOrder);
 
-
-        const categoryParams = searchParams.get("category");
         if (categoryParams && categoryParams.toLowerCase() !== "all") {
             params.set("category", categoryParams);
-        }        
+        }  
 
-        const keyword =searchParams.get("keyword") || null;
-        if(keyword){
-            params.set("keyword",keyword);
+        if (keyword) {
+            params.set("keyword", keyword);
         }
 
         const queryString = params.toString();
-        console.log("QUERY STRING --: "+queryString);
-
-        dispatch(fetchProducts(queryString))
+        console.log("QUERY STRING", queryString);
         
-    },[dispatch,searchParams])
-}
+        dispatch(fetchProducts(queryString));
 
-export default useProductFilter
+    }, [dispatch, searchParams]);
+};
 
+export default useProductFilter;

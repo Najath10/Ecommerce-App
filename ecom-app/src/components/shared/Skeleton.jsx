@@ -1,21 +1,70 @@
-import React from 'react'
+import React from "react";
 
-const Skeleton = ({text = "Loggin in ...."}) => {
+const Skeleton = () => {
   return (
-    <div className="flex items-center gap-3">
-      {/* Stylish Loader Spinner */}
-      <div className="relative w-6 h-6">
-        {/* Outer ring with glow */}
-        <div className="absolute inset-0 border-2 border-t-transparent border-white rounded-full animate-spin shadow-md shadow-white/30"></div>
-        {/* Inner ring slower, colored */}
-        <div className="absolute inset-1 border-2 border-t-transparent border-blue-500 rounded-full animate-[spin_2s_linear_infinite]"></div>
-        {/* Pulsing center dot */}
-        <div className="absolute inset-2 rounded-full bg-blue-500 animate-ping"></div>
+    <div role="status" className="space-y-2.5 animate-pulse w-full">
+      <div className="flex items-center w-full">
+        <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
       </div>
-      <span className="text-sm font-medium text-white tracking-wide animate-pulse">{text}</span>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 w-80" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-32" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 flex-1" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 w-80" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 w-80" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-32" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-24" />
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 flex-1" />
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+        <div className="h-2.5 ms-2 bg-gray-200 rounded-full dark:bg-gray-700 w-80" />
+        <div className="h-2.5 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 flex-1" />
+      </div>
     </div>
-  
-  )
-}
+  );
+};
 
-export default Skeleton
+export default Skeleton;
